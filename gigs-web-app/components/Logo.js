@@ -5,7 +5,7 @@ function Logo () {
     <Image
       src="/gigsLogo.png"
       alt="Gigs Logo"
-      width="140" />
+      width="110" />
   )
 }
 
