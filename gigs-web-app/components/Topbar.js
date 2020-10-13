@@ -23,12 +23,12 @@ function Topbar(props) {
             <Navbar.Collapse className="justify-content-end">
               <Navbar.Text>
                 {!isShieldInstalled &&
-                  <Button variant="primary" size="md" block="true">
+                  <Button variant="success" size="md" block="true">
                     Download Shield | <FaArrowCircleDown />
                   </Button>
                 }
                 {(isShieldInstalled && !isUserSession) &&
-                  <Button variant="success" size="md">
+                  <Button variant="primary" size="md">
                     Shield Login | <FaSignInAlt />
                   </Button>
                 }
