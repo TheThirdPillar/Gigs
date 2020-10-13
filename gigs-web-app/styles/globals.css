@@ -5,6 +5,17 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Roboto Slab', serif;
+  font-weight: 200 !important;
+}
+
+h1 {
+  font-family: 'Roboto Slab', serif;
+  font-weight: 400 !important;
+}
+
+h1 span {
+  font-weight: 900 !important;
+  color: #0003ff;
 }
 
 a {
