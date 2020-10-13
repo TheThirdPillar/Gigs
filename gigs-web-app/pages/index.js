@@ -26,7 +26,7 @@ export default function Home() {
           <Form className="mt-1 ml-2">
             <Form.Group as={Row} controlId="search">
               <InputGroup>
-                <Form.Control type="text" placeholder="Enter keyword" size="lg" /> 
+                <Form.Control type="text" placeholder="Enter keyword" size="lg" />
                 <InputGroup.Append>
                   <InputGroup.Text><FaSearch /></InputGroup.Text>
                 </InputGroup.Append>
@@ -37,7 +37,7 @@ export default function Home() {
             </Form.Group>
           </Form>
           <h4>
-            Why be one thing, when you can be <br /> 
+            Jobs are cool, sure. But you could be <br />
             <span className={styles.blueText} id="changingText">
               <Typewriter
                 options={{
@@ -50,12 +50,12 @@ export default function Home() {
           </h4>
         </Col>
         <Col xs={12} md={6} lg={6} className="d-none d-lg-block">
-            <Image  
+            <Image
             src="/workFromAnywhere.svg" fluid />
         </Col>
       </Row>
-      <Row>
-
+      <Row className="justify-content-center mt-4">
+        <h2>THE PROCESS</h2>
       </Row>
     </DefaultLayout>
   )
