@@ -8,14 +8,9 @@ body {
   font-weight: 200 !important;
 }
 
-h1 {
+h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto Slab', serif;
   font-weight: 400 !important;
-}
-
-h1 span {
-  font-weight: 900 !important;
-  color: #0003ff;
 }
 
 a {

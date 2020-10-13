@@ -1,3 +1,8 @@
 .marginTop {
-    margin-top: 25%;
+    margin-top: 20%;
+}
+
+.blueText {
+    font-weight: 900 !important;
+    color: #0003ff;
 }
