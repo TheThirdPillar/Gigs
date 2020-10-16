@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav'
 function Footer() {
   return (
     <>
-      <Row className="justify-content-center border-top mt-4">
+      <Row className="justify-content-center border-top mt-4 custom-footer-links">
         <Col xs={4} md={4} lg={3}>
           <Nav className="flex-column">
             <Nav.Item>

@@ -31,3 +31,17 @@ img {
   background-color: #0003ff !important;
   border-color: #0003ff !important;
 }
+
+.vertical-timeline::before {
+  background: #0003ff !important;
+}
+
+.vertical-timeline-element-content {
+  background: #ddd !important;
+  box-shadow: none !important;
+  color: #0003ff !important;
+}
+
+.custom-footer-links .nav-link {
+  color: #0003ff !important;
+}

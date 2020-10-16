@@ -5,11 +5,21 @@ import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
-import { FaSearch } from 'react-icons/fa'
+import CardGroup from 'react-bootstrap/CardGroup'
+import { FaSearch, FaFileUpload, FaDesktop, FaMobile } from 'react-icons/fa'
+import { MdFavorite } from 'react-icons/md'
+import { RiHandCoinFill } from 'react-icons/ri'
+import { SiReadthedocs, SiSkillshare } from 'react-icons/si'
+import { GiPayMoney } from 'react-icons/gi'
 import Typewriter from 'typewriter-effect'
 
 import DefaultLayout from '../layout/DefaultLayout'
+import ProcessCards from '../components/ProcessCards'
 import styles from '../styles/Home.module.css'
+
+import Testimonial from 'react-testimonial'
+import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
+import 'react-vertical-timeline-component/style.min.css';
 
 export default function Home() {
 
@@ -55,7 +65,92 @@ export default function Home() {
         </Col>
       </Row>
       <Row className="justify-content-center mt-4">
-        <h2>THE PROCESS</h2>
+        <h2><span className={styles.blueText}>THE PROCESS</span></h2>
+      </Row>
+      <Row className="mt-4">
+        <Col xs={12} md={12} lg={12}>
+          <CardGroup>
+            <ProcessCards
+              title={<FaSearch />}
+              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius diam sit amet diam hendrerit, vitae dapibus ligula consequat. Nam pretium tempus mauris a ultricies. Maecenas sagittis porta leo, id maximus nulla egestas volutpat. Sed tristique non augue varius sodales."
+            />
+            <ProcessCards
+              title={<MdFavorite />}
+              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius diam sit amet diam hendrerit, vitae dapibus ligula consequat. Nam pretium tempus mauris a ultricies. Maecenas sagittis porta leo, id maximus nulla egestas volutpat. Sed tristique non augue varius sodales."
+            />
+            <ProcessCards
+              title={<FaFileUpload />}
+              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius diam sit amet diam hendrerit, vitae dapibus ligula consequat. Nam pretium tempus mauris a ultricies. Maecenas sagittis porta leo, id maximus nulla egestas volutpat. Sed tristique non augue varius sodales."
+            />
+            <ProcessCards
+              title={<RiHandCoinFill />}
+              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius diam sit amet diam hendrerit, vitae dapibus ligula consequat. Nam pretium tempus mauris a ultricies. Maecenas sagittis porta leo, id maximus nulla egestas volutpat. Sed tristique non augue varius sodales."
+            />
+          </CardGroup>
+        </Col>
+      </Row>
+      <Row className="justify-content-center mt-4">
+        <h2><span className={styles.blueText}>Roadmap</span></h2>
+      </Row>
+      <Row className="mt-4">
+        <Col xs={12} md={12} lg={12}>
+          <VerticalTimeline>
+            <VerticalTimelineElement
+              className="vertical-timeline-element--work"
+              contentArrowStyle={{ borderRight: '7px solid  #ddd' }}
+              date="January 2020"
+              iconStyle={{ background: '#fff', color: '#0003ff' }}
+              icon={<GiPayMoney />}
+            >
+              <h3 className="vertical-timeline-element-title">Bidding</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis placerat turpis, vitae vestibulum ipsum elementum non. Curabitur id ex.</p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement 
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+              contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
+              date="February 2020 - March 2020"
+              iconStyle={{ background: '#fff', color: '#0003ff' }}
+              icon={<SiSkillshare />}
+            >
+              <h3 className="vertical-timeline-element-title">SkillTokens</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis placerat turpis, vitae vestibulum ipsum elementum non. Curabitur id ex.</p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement 
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+              contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
+              date="April 2020"
+              iconStyle={{ background: '#fff', color: '#0003ff' }}
+              icon={<SiReadthedocs />}
+            >
+              <h3 className="vertical-timeline-element-title">Open API</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis placerat turpis, vitae vestibulum ipsum elementum non. Curabitur id ex.</p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement 
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+              contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
+              date="May 2020 - June 2020"
+              iconStyle={{ background: '#fff', color: '#0003ff' }}
+              icon={<FaDesktop />}
+            >
+              <h3 className="vertical-timeline-element-title">Desktop App</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis placerat turpis, vitae vestibulum ipsum elementum non. Curabitur id ex.</p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement 
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+              contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
+              date="June 2020 - July 2020"
+              iconStyle={{ background: '#fff', color: '#0003ff' }}
+              icon={<FaMobile />}
+            >
+              <h3 className="vertical-timeline-element-title">Mobile App</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis placerat turpis, vitae vestibulum ipsum elementum non. Curabitur id ex.</p>
+            </VerticalTimelineElement>
+          </VerticalTimeline>
+        </Col>
       </Row>
     </DefaultLayout>
   )
