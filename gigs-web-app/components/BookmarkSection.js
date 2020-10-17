@@ -1,5 +1,7 @@
 import Row from 'react-bootstrap/Row'
+
 import GigsSummaryCard from './GigsSummaryCard'
+import GigsInfoCard from './GigsInfoCards'
 
 export default function BookmarkSection(props) {
     return (
@@ -21,6 +23,17 @@ export default function BookmarkSection(props) {
                         count="9"
                         title="Approaching Deadline" 
                     />
+            </Row>
+            <Row className="mt-2">
+                <GigsInfoCard />
+                <GigsInfoCard />
+                <GigsInfoCard />
+                <GigsInfoCard />
+                <GigsInfoCard />
+                <GigsInfoCard />
+                <GigsInfoCard />
+                <GigsInfoCard />
+                <GigsInfoCard />
             </Row>
         </>
     )
