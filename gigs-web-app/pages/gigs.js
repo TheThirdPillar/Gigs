@@ -6,7 +6,7 @@ import GigsSearchResultSection from '../components/GigsSearchResultSection'
 
 export default function Gigs() {
     return (
-        <DefaultLayout>
+        <DefaultLayout isUserSession={false}>
             <Head>
                 <title>
                     Gigs - Search

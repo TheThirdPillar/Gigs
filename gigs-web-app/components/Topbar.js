@@ -1,15 +1,31 @@
+import { useRouter } from 'next/router'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
-import { FaSignInAlt } from 'react-icons/fa'
+import Badge from 'react-bootstrap/Badge'
+import { FaSignInAlt, FaSignOutAlt, FaRegIdCard, FaWallet } from 'react-icons/fa'
+import { RiAdminFill } from 'react-icons/ri'
+import { MdExplore } from 'react-icons/md'
 
 import Logo from './Logo'
 
 function Topbar(props) {
 
   const isShieldInstalled = true
-  const isUserSession = false
+  const isUserSession = props.isUserSession
+  var activeKey = 0
+
+  const router = useRouter()
+
+  if (router.pathname === '/user') {
+    activeKey = 1
+  }  else if (router.pathname === '/user/wallet') {
+    activeKey = 2
+  } else if (router.pathname === '/user/admin') {
+    activeKey = 3
+  } 
 
   return (
     <>
@@ -20,6 +36,24 @@ function Topbar(props) {
               <Logo />
             </Navbar.Brand>
             <Navbar.Toggle />
+            {isUserSession &&
+              <Navbar.Collapse className="justify-content-center">
+                <Nav activeKey={activeKey}>
+                  <Nav.Item>
+                    <Nav.Link eventKey={1} href="/user"><FaRegIdCard /> Dashboard</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey={2} href="/user/wallet"><FaWallet /> Wallet</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey={3} href="/user/admin"><RiAdminFill /> Admin</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey={4} href="#" disabled><MdExplore /> Explorer <sup><Badge variant="dark">Coming Soon</Badge></sup></Nav.Link>
+                  </Nav.Item>
+                </Nav>
+              </Navbar.Collapse>
+            }
             <Navbar.Collapse className="justify-content-end">
               <Navbar.Text>
                 {!isShieldInstalled &&

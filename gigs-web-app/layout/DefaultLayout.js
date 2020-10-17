@@ -6,11 +6,13 @@ import Footer from '../components/Footer'
 function DefaultLayout(props) {
     return (
         <Container>
-            <Topbar />
+            <Topbar isUserSession={props.isUserSession} />
             <div>
                 {props.children}
             </div>
-            <Footer />
+            {
+                (!props.isUserSession) ? <Footer /> : <></>
+            }
         </Container>
     )
 }

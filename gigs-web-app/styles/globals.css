@@ -45,3 +45,7 @@ img {
 .custom-footer-links .nav-link {
   color: #0003ff !important;
 }
+
+.nav-link .active {
+  color: #0003ff !important;
+}

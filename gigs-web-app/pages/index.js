@@ -26,7 +26,7 @@ export default function Home() {
   const options = ["clicking pictures.", "teaching your craft.", "taking zumba classes.", "talking to seals.", "writing code.", "anything."]
 
   return (
-    <DefaultLayout>
+    <DefaultLayout isUserSession={false}>
       <Head>
         <title>Gigs 1.0</title>
       </Head>
