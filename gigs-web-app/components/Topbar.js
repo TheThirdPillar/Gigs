@@ -16,7 +16,7 @@ function Topbar(props) {
       <Row className="justify-content-center">
         <Col xs={12} md={12} lg={12}>
           <Navbar bg="white" expand="lg" sticky="top">
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="/">
               <Logo />
             </Navbar.Brand>
             <Navbar.Toggle />

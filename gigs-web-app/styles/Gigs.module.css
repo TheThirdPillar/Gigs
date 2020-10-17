@@ -1,0 +1,23 @@
+.blueText {
+    font-weight: 900 !important;
+    color: #0003ff;
+    font-size: xx-large;
+}
+
+.blueTextMedium {
+    font-weight: 400 !important;
+    color: #0003ff;
+}
+
+.blueTextLight {
+    font-weight: 100 !important;
+    color: #0003ff;
+}
+
+.gigTitle {
+    font-size: medium !important;
+}
+
+.gigType {
+    font-weight: 400 !important;
+}
