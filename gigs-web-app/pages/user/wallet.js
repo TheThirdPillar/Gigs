@@ -10,7 +10,7 @@ export default function Wallet() {
   return (
     <DefaultLayout isUserSession={isUserSession}>
       <Head>
-        <title>Identity - Wallet</title>
+        <title>Gigs - Wallet</title>
       </Head>
       <Row className="mt-4">
         <WalletCard />
