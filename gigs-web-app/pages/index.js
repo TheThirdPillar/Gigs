@@ -1,11 +1,15 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
+
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import CardGroup from 'react-bootstrap/CardGroup'
+
+import Testimonial from 'react-testimonial'
 import { FaSearch, FaFileUpload, FaDesktop, FaMobile } from 'react-icons/fa'
 import { MdFavorite } from 'react-icons/md'
 import { RiHandCoinFill } from 'react-icons/ri'
@@ -17,16 +21,23 @@ import DefaultLayout from '../layout/DefaultLayout'
 import ProcessCards from '../components/ProcessCards'
 import styles from '../styles/Home.module.css'
 
-import Testimonial from 'react-testimonial'
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 
 export default function Home() {
 
+  const router = useRouter()
+  const [isUserSession, setUserSession] = useState(false)
+  useEffect(() => {
+    if (isUserSession) {
+      router.push('/user')
+    }
+  })
+
   const options = ["clicking pictures.", "teaching your craft.", "taking zumba classes.", "talking to seals.", "writing code.", "anything."]
 
   return (
-    <DefaultLayout isUserSession={false}>
+    <DefaultLayout isUserSession={false} setUserSession={(session) => setUserSession(session)}>
       <Head>
         <title>Gigs 1.0</title>
       </Head>
