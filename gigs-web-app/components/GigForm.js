@@ -143,7 +143,26 @@ export default function GigForm() {
 
         // TODO: Form validation, skills field and file have issues.
 
-        console.log(inputFields)   
+        fetch(domain + '/application/listen/gigs/addGig', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + Cookies.get('token')
+            },
+            body: JSON.stringify(inputFields) 
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status && data.status === 'SUCCESS') {
+                setToastMessage('Successfully added gig to the platform.')
+                toggleToastType('success')
+                toggleToastShow(true)
+            } else {
+                setToastMessage('Unable to add gig to platform at the moment.')
+                toggleToastType('danger')
+                toggleToastShow(true)
+            }
+        }) 
     }
 
     return (

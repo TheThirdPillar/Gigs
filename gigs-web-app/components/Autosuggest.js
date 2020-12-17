@@ -102,7 +102,6 @@ function Autosuggest(props) {
             console.log(e.target.name)
             console.log(currentFocus)
             if (e.target.name === "searchSkillDetail" && currentFocus === -1) {
-                console.log("Yoohoo")
                 props.addToList(value)
                 setValue('')
                 return

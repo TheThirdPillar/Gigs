@@ -1,12 +1,11 @@
 import Head from 'next/head'
-
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 
 import DefaultLayout from '../../layout/DefaultLayout'
 import GigForm from '../../components/GigForm'
 
-export default function Admin(props) {
+export default function Admin() {
     return (
         <DefaultLayout isUserSession={true}>
             <Head>
