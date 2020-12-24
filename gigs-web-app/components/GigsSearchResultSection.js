@@ -1,29 +1,42 @@
+import { useState } from 'react'
+
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardDeck from 'react-bootstrap/CardDeck'
 
 import GigsFilterSection from './GigsFilterSection'
 import GigsInfoCard from './GigsInfoCards'
+import GigDetailModal from './GigDetailModal'
 
 export default function GigsSearchResultSection(props) {
+
+    const [showModal, toggleModalShow] = useState(false)
+    const [modalData, setModalData] = useState(null)
+    
+    const handleModalShow = (gig) => {
+        setModalData(gig)
+        toggleModalShow(true)
+    }
+
+    const handleModalClose = () => {
+        toggleModalShow(false)
+        setModalData(null)
+    }
+
     return (
         <>
             <Row className="mt-4 justify-content-center">
-                <Col xs={12} md={8} lg={3} className="m-2 p-2">
-                    <GigsFilterSection />
-                </Col>
-                <Col xs={12} md={12} lg={8} className="m-1 p-2">
+                <Col xs={12} md={12} lg={12} className="m-1 p-2">
                     <CardDeck>
-                        <GigsInfoCard />
-                        <GigsInfoCard />
-                        <GigsInfoCard />
-                        <GigsInfoCard />
-                        <GigsInfoCard />
-                        <GigsInfoCard />
-                        <GigsInfoCard />
+                        {
+                            props.gigs?.map((gig, index) => {
+                                return <GigsInfoCard gig={gig} key={index} isUserSession={props.isUserSession} showDetail={() => handleModalShow(gig)} isAdmin={props.isAdmin} bookmarked={(props.bookmarked.includes(gig._id))} />
+                            })
+                        }
                     </CardDeck>
                 </Col>
             </Row>
+            <GigDetailModal show={showModal} gig={modalData} onHide={() => handleModalClose()} />             
         </>
     )
 }

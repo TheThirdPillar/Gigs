@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 
-
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -18,29 +17,9 @@ import { AiFillCloseCircle } from 'react-icons/ai'
 import connectToExtension from '../utils/extension'
 import { domain } from '../config/config'
 
-export default function GigForm() {
+export default function GigForm(props) {
 
-    const [communities, setCommunities] = useState()
-    useEffect(() => {
-        if (!communities) {
-            fetch(domain + '/application/listen/gigs/getCommunitiesByAdmin', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + Cookies.get('token')
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status && data.status === 'SUCCESS') {
-                    setCommunities(data.communities)
-                } else {
-                    return (<h3>Unable to fetch communities.</h3>)
-                }
-            })
-        }
-    }, [communities])
-
+    const communities = props.communities
     const [inputFields, setInputFields] = useState({
         title: '',
         description: '',
@@ -49,7 +28,7 @@ export default function GigForm() {
         gigStartDate: Date.now(),
         gigEndDate: Date.now(),
         type: '',
-        amount: 0,
+        reward: 0,
         skillDetails: [],
         encryptedFile: null,
         encryptedKey: null
@@ -132,6 +111,8 @@ export default function GigForm() {
     }
 
     const handleFileRemove = () => {
+        // TODO: Handle file upload, as in, 
+        // default button is clicked as well. 
         toggleUploaded(false)
         setInputFields({...inputFields, encryptedFile: '', encryptedKey: ''})
     }
@@ -142,7 +123,6 @@ export default function GigForm() {
         e.preventDefault()
 
         // TODO: Form validation, skills field and file have issues.
-
         fetch(domain + '/application/listen/gigs/addGig', {
             method: 'POST',
             headers: {
@@ -157,6 +137,9 @@ export default function GigForm() {
                 setToastMessage('Successfully added gig to the platform.')
                 toggleToastType('success')
                 toggleToastShow(true)
+                setTimeout(() => {
+                    location.reload()
+                }, 3000)
             } else {
                 setToastMessage('Unable to add gig to platform at the moment.')
                 toggleToastType('danger')
@@ -266,7 +249,7 @@ export default function GigForm() {
             
             <Row className="justify-content-center">
                 <Col xs={10} lg={8} md={8}>
-                    <Toast delay={3000} show={showToast} className={toastType}  autohide>
+                    <Toast delay={3000} show={showToast} className={"bg-" + toastType} autohide>
                         <Toast.Header>
                             Notification
                         </Toast.Header>
