@@ -19,7 +19,6 @@ import { domain } from '../config/config'
 export default function GigsInfoCards(props) {
 
     const [isBookmarked, toggleBookmark] = useState(props.bookmarked)
-    const [bookmarkId, setBookmarkId] = useState(null)
 
     const updateBookmark = (state) => {
         let request = {}
@@ -38,12 +37,14 @@ export default function GigsInfoCards(props) {
             .then(data => {
                 if (data.status === 'SUCCESS') {
                     toggleBookmark(state)
-                    setBookmarkId(data.bookmark)
+                    // Send an update to the admin page
+                    // to add to the bookmarked list.
+                    props.updateBookmarked(0)
                 }
             })
         } else {
             // delete the usergig object
-            fetch(domain + '/application/listen/gigs/removeBookmark/' +  bookmarkId, {
+            fetch(domain + '/application/listen/gigs/removeBookmark/' +  props.gig._id, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/jsonn',
@@ -54,7 +55,9 @@ export default function GigsInfoCards(props) {
             .then(data => {
                 if (data.status === 'SUCCESS') {
                     toggleBookmark(state)
-                    setBookmarkId(null)
+                    // Send an update to the admin page
+                    // to remove from the bookmarked list.
+                    props.updateBookmarked(1)
                 }
             })
         }
@@ -62,7 +65,7 @@ export default function GigsInfoCards(props) {
 
     return (
         <>
-            <Col xs={12} md={6} lg={4}>
+            <Col xs={12} md={6} lg={5}>
                 <Card 
                     bg="light"
                     text="black"
@@ -110,10 +113,12 @@ export default function GigsInfoCards(props) {
                             End Date: {new Date(props.gig?.gigEndDate).toDateString()}
                         </span>
                         <br />
-                        {
-                            (!props.isAdmin) 
-                                ? (isBookmarked) ? <FaHeart className="cursor-pointer" onClick={() => updateBookmark(false)} /> : <FaRegHeart className="cursor-pointer" onClick={() => updateBookmark(true)} />
-                                : ''
+                        {   
+                            (props.applied)
+                                ? ''
+                                :(!props.isAdmin) 
+                                    ? (isBookmarked) ? <FaHeart className="cursor-pointer text-danger" onClick={() => updateBookmark(false)} /> : <FaRegHeart className="cursor-pointer" onClick={() => updateBookmark(true)} />
+                                    : ''
                         }
                     </footer>
                 </Card>

@@ -10,6 +10,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import DefaultLayout from '../../layout/DefaultLayout'
 import GigForm from '../../components/GigForm'
 import GigSearchResultSection from '../../components/GigsSearchResultSection'
+import ApplicationTable from '../../components/ApplicationTable'
 
 import { domain } from '../../config/config'
 
@@ -23,7 +24,6 @@ export default function Admin() {
             router.push('/')
             return
         }
-
         fetch(domain + '/application/listen/gigs/getAdminData', {
             method: 'GET',
             headers: {
@@ -34,8 +34,10 @@ export default function Admin() {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'SUCCESS') {
+                console.log(data)
                 updatePostedGigs(data.gigs)
                 setAdminCommunities(data.communities)
+                updateApplications(data.applications)
             } else {
                 // TODO: Handle fetch failure
             }
@@ -45,6 +47,14 @@ export default function Admin() {
     
     const [postedGigs, updatePostedGigs] = useState(null)
     const [adminCommunities, setAdminCommunities] = useState([])
+    const [applications, updateApplications] = useState([])
+
+    const handleUpdate = (id) => {
+        let tempApplications = applications.filter(application => {
+            return application._id !== id
+        })
+        updateApplications(tempApplications)
+    }
 
     return (
         <DefaultLayout isUserSession={isUserSession} toggleSesion={(session) => setUserSession(session)}>
@@ -56,6 +66,9 @@ export default function Admin() {
             <Tabs fill variant="tabs" defaultActiveKey="all" className="mt-4">
                 <Tab eventKey="all" title="All Gigs">
                     <GigSearchResultSection gigs={postedGigs} isUserSession={isUserSession} isAdmin={true} />
+                </Tab>
+                <Tab eventKey="applications" title="Applications">
+                    <ApplicationTable applications={applications} updateApplications={(id) => handleUpdate(id)} />
                 </Tab>
                 <Tab eventKey="submissions" title="Submissions">
 

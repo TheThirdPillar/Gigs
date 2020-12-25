@@ -4,7 +4,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardDeck from 'react-bootstrap/CardDeck'
 
-import GigsFilterSection from './GigsFilterSection'
 import GigsInfoCard from './GigsInfoCards'
 import GigDetailModal from './GigDetailModal'
 
@@ -30,13 +29,13 @@ export default function GigsSearchResultSection(props) {
                     <CardDeck>
                         {
                             props.gigs?.map((gig, index) => {
-                                return <GigsInfoCard gig={gig} key={index} isUserSession={props.isUserSession} showDetail={() => handleModalShow(gig)} isAdmin={props.isAdmin} bookmarked={(props.bookmarked.includes(gig._id))} />
+                                return <GigsInfoCard gig={gig} key={index} isUserSession={props.isUserSession} showDetail={() => handleModalShow(gig)} isAdmin={props.isAdmin} bookmarked={(props.bookmarked?.includes(gig._id))} updateBookmarked={(action) => props.updateBookmarked(action, gig._id)} applied={props.applied} />
                             })
                         }
                     </CardDeck>
                 </Col>
             </Row>
-            <GigDetailModal show={showModal} gig={modalData} onHide={() => handleModalClose()} />             
+            <GigDetailModal show={showModal} gig={modalData} onHide={() => handleModalClose()} isAdmin={props.isAdmin} updateApplied={(id) => props.updateApplied(id)} applied={props.applied} />             
         </>
     )
 }

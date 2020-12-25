@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie'
+
 import Modal from 'react-bootstrap/Modal'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -7,9 +9,36 @@ import Button from 'react-bootstrap/Button'
 import { FaRupeeSign } from 'react-icons/fa'
 import { SiGooglescholar } from 'react-icons/si'
 
+import { domain } from '../config/config'
+
 export default function GigDetailModal(props) {
 
-    let isAdmin = true
+    // TODO: Edit Functionality
+    // TODO: Delete Functionality
+
+    const applyGig = () => {
+        let request = {}
+        request.gigId = props.gig._id
+        fetch(domain + '/application/listen/gigs/gigApplication', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + Cookies.get('token')
+            },
+            body: JSON.stringify(request)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status == 'SUCCESS'){
+                // Close the modal
+                // Update applied in home page
+                props.updateApplied(props.gig._id)
+                props.onHide()
+            } else {
+                console.error(data)
+            }
+        })
+    }
 
     return (
         <Modal
@@ -74,9 +103,11 @@ export default function GigDetailModal(props) {
                         <Row>
                             <Col>
                                 {
-                                    (isAdmin)
-                                        ? <Button>View Document</Button>
-                                        : <Button>Apply</Button>  
+                                    (props.isAdmin)
+                                        ? <Button className="ml-1">View Document</Button>
+                                        : (props.applied)
+                                            ? <Button className="ml-1" disabled>View Document</Button>
+                                            : <Button className="ml-1" onClick={() => applyGig()}>Apply to View</Button>  
                                 }
                             </Col>
                         </Row>
