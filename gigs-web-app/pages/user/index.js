@@ -24,6 +24,7 @@ export default function Gigs() {
     const [gigsData, setGigsData] = useState(null)
     const [bookmarked, setBookmarked] = useState([])
     const [totalBookmarked, updateTotalCount] = useState(0)
+    const [applications, updateApplications] = useState([])
     const [applied, setApplied] = useState([])
     const [totalApplied, updateAppliedCount] = useState(0)
     const [submitted, setSubmitted] = useState([])
@@ -42,7 +43,6 @@ export default function Gigs() {
             .then(data => {
                 if (data.status && data.status == 'SUCCESS') {
                     // Do something
-                    console.log(data)
                     data.usergigmodels.map((usergigmodel) => {
                         if (usergigmodel.status == 0) {
                             // Bookmarked
@@ -58,6 +58,7 @@ export default function Gigs() {
                             tempApplied.push(usergigmodel.gig)
                             setApplied(tempApplied)
                             updateAppliedCount(applied.length)
+                            updateApplications(data.usergigmodels)
                         }
 
                         if (usergigmodel.status == 4) {
@@ -152,7 +153,7 @@ export default function Gigs() {
                             <GigsSearchResultSection gigs={gigsData.filter(filterAvailableGig)} isUserSession={isUserSession} isAdmin={false} bookmarked={bookmarked} updateBookmarked={(action, id) => handleBookmarkUpdate(action, id)} updateApplied={(id) => updateApplied(id)}/>
                         </Tab>
                         <Tab eventKey="applied" title="Applied">
-                            <GigsSearchResultSection gigs={gigsData.filter(filterAppliedGig)} isUserSession={isUserSession} isAdmin={false} applied={true} />
+                            <GigsSearchResultSection gigs={gigsData.filter(filterAppliedGig)} isUserSession={isUserSession} isAdmin={false} applied={true} applications={applications} />
                         </Tab>
                         <Tab eventKey="submissions" title="Submissions">
                             <GigsSearchResultSection />

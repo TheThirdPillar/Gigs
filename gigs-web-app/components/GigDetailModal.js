@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Cookies from 'js-cookie'
 
 import Modal from 'react-bootstrap/Modal'
@@ -10,11 +11,14 @@ import { FaRupeeSign } from 'react-icons/fa'
 import { SiGooglescholar } from 'react-icons/si'
 
 import { domain } from '../config/config'
+import connectToExtension from '../utils/extension'
 
 export default function GigDetailModal(props) {
 
     // TODO: Edit Functionality
     // TODO: Delete Functionality
+
+    const [logText, setLogText] = useState(null)
 
     const applyGig = () => {
         let request = {}
@@ -36,6 +40,41 @@ export default function GigDetailModal(props) {
                 props.onHide()
             } else {
                 console.error(data)
+            }
+        })
+    }
+
+    const viewDocument = (isAdmin) => {
+        console.log(props.applicationData)
+        console.log(props.gig)
+        console.log(isAdmin)
+        let encryptedData, encryptedKey, originalPublicKey
+        encryptedData = props.gig.encryptedFile
+        if (isAdmin) {
+            // When called by admin
+            encryptedKey = props.gig.encryptedKey
+            originalPublicKey = false // TODO: This is `thierPublicKey`, not originalPublicKey. Must change here and in Identity.
+        } else {
+            // When called by user
+            encryptedKey = props.applicationData.sharedKeyGigDocument
+            originalPublicKey = props.gig.postedBy.publicKey
+        }
+        let request = {}
+        request.query = 'decrypt'
+        request.data = {
+            encryptedData: encryptedData,
+            encryptedKey: encryptedKey,
+            originalPublicKey: originalPublicKey
+        }
+        connectToExtension(request)
+        .then(response => {
+            if (response && response.status && response.status === 'SUCCESS') {
+                let imageSource = response.decryptedData
+                var image = new Image()
+                image.src = imageSource
+                window.open("").document.write(image.outerHTML)
+            } else {
+                setLogText('Unable to decrypt at the moment.')
             }
         })
     }
@@ -104,13 +143,30 @@ export default function GigDetailModal(props) {
                             <Col>
                                 {
                                     (props.isAdmin)
-                                        ? <Button className="ml-1">View Document</Button>
+                                        ? <Button className="ml-1" onClick={() => viewDocument(props.isAdmin)}>View Document</Button>
                                         : (props.applied)
-                                            ? <Button className="ml-1" disabled>View Document</Button>
+                                            ? <Button className="ml-1" disabled={props.applicationData?.status !== 2} onClick={() => viewDocument(props.isAdmin)}>View Document</Button>
                                             : <Button className="ml-1" onClick={() => applyGig()}>Apply to View</Button>  
                                 }
                             </Col>
                         </Row>
+                        <Row>
+                            <Col>
+                                <p className="text-danger">{logText}</p>
+                            </Col>
+                        </Row>
+                        {
+                            (props.applicationData?.status == 2 || props.applicationData?.status == 4)
+                                ? <>
+                                    <h6 className="mt-4">Submit Solution:</h6>
+                                    <Row>
+                                        <Col>
+                                            <Button variant="success" className="ml-1" disabled={props.applicationData?.status == 4} onClick={() => props.handleSubmission()}>Submit Solution</Button>
+                                        </Col>
+                                    </Row>
+                                  </>
+                                : ''
+                        }
                     </Col>
                     <Col lg={4}>
                         <Row>

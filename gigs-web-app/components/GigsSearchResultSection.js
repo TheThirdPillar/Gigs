@@ -6,20 +6,35 @@ import CardDeck from 'react-bootstrap/CardDeck'
 
 import GigsInfoCard from './GigsInfoCards'
 import GigDetailModal from './GigDetailModal'
+import SubmissionModal from './SubmissionModal'
 
 export default function GigsSearchResultSection(props) {
 
     const [showModal, toggleModalShow] = useState(false)
+    const [showSubmissionModal, toggleSubmissionModal] = useState(false)
     const [modalData, setModalData] = useState(null)
+    const [applicationData, setApplicationData] = useState(null)
     
     const handleModalShow = (gig) => {
         setModalData(gig)
+        if (props.applications) {
+            let currentApplication = props.applications?.filter(application => {
+                return (application.gig === gig._id)
+            })
+            setApplicationData(currentApplication[0])
+        }
         toggleModalShow(true)
     }
 
     const handleModalClose = () => {
         toggleModalShow(false)
         setModalData(null)
+    }
+
+    const handleSubmission = () => {
+        toggleModalShow(false)
+        setModalData(null)
+        toggleSubmissionModal(true)
     }
 
     return (
@@ -35,7 +50,8 @@ export default function GigsSearchResultSection(props) {
                     </CardDeck>
                 </Col>
             </Row>
-            <GigDetailModal show={showModal} gig={modalData} onHide={() => handleModalClose()} isAdmin={props.isAdmin} updateApplied={(id) => props.updateApplied(id)} applied={props.applied} />             
+            <GigDetailModal show={showModal} gig={modalData} onHide={() => handleModalClose()} isAdmin={props.isAdmin} updateApplied={(id) => props.updateApplied(id)} applied={props.applied} applicationData={applicationData} handleSubmission={() => handleSubmission()} />
+            <SubmissionModal show={showSubmissionModal} onHide={() => toggleSubmissionModal(false)} />             
         </>
     )
 }
