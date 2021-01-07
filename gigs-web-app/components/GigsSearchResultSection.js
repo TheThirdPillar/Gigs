@@ -28,12 +28,14 @@ export default function GigsSearchResultSection(props) {
 
     const handleModalClose = () => {
         toggleModalShow(false)
+        toggleSubmissionModal(false)
         setModalData(null)
     }
 
-    const handleSubmission = () => {
+    const handleSubmission = (gig) => {
         toggleModalShow(false)
         setModalData(null)
+        setModalData(gig)
         toggleSubmissionModal(true)
     }
 
@@ -50,8 +52,8 @@ export default function GigsSearchResultSection(props) {
                     </CardDeck>
                 </Col>
             </Row>
-            <GigDetailModal show={showModal} gig={modalData} onHide={() => handleModalClose()} isAdmin={props.isAdmin} updateApplied={(id) => props.updateApplied(id)} applied={props.applied} applicationData={applicationData} handleSubmission={() => handleSubmission()} />
-            <SubmissionModal show={showSubmissionModal} onHide={() => toggleSubmissionModal(false)} />             
+            <GigDetailModal show={showModal} gig={modalData} onHide={() => handleModalClose()} isAdmin={props.isAdmin} updateApplied={(id) => props.updateApplied(id)} applied={props.applied} applicationData={applicationData} handleSubmission={(gig) => handleSubmission(gig)} />      
+            <SubmissionModal gig={modalData} show={showSubmissionModal} onHide={() => handleModalClose()} updateSubmission={(id) => props.updateSubmission(id)} />       
         </>
     )
 }

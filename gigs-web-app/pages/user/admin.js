@@ -11,6 +11,7 @@ import DefaultLayout from '../../layout/DefaultLayout'
 import GigForm from '../../components/GigForm'
 import GigSearchResultSection from '../../components/GigsSearchResultSection'
 import ApplicationTable from '../../components/ApplicationTable'
+import SubmissionTableAdmin from '../../components/SubmissionTableAdmin'
 
 import { domain } from '../../config/config'
 
@@ -18,6 +19,9 @@ export default function Admin() {
 
     const router = useRouter()
 
+    const [postedGigs, updatePostedGigs] = useState(null)
+    const [adminCommunities, setAdminCommunities] = useState([])
+    const [applications, updateApplications] = useState([])
     const [isUserSession, setUserSession] = useState(Cookies.get('token'))
     useEffect(() => {
         if (!isUserSession) {
@@ -45,10 +49,6 @@ export default function Admin() {
 
     }, [isUserSession])
     
-    const [postedGigs, updatePostedGigs] = useState(null)
-    const [adminCommunities, setAdminCommunities] = useState([])
-    const [applications, updateApplications] = useState([])
-
     const handleUpdate = (id) => {
         let tempApplications = applications.filter(application => {
             return application._id !== id
@@ -71,7 +71,7 @@ export default function Admin() {
                     <ApplicationTable applications={applications} updateApplications={(id) => handleUpdate(id)} />
                 </Tab>
                 <Tab eventKey="submissions" title="Submissions">
-
+                    <SubmissionTableAdmin gigs={postedGigs} isAdmin={true} />
                 </Tab>
                 <Tab eventKey="add" title="Add New">
                     <GigForm communities={adminCommunities} />

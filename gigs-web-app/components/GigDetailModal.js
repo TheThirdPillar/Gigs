@@ -161,7 +161,7 @@ export default function GigDetailModal(props) {
                                     <h6 className="mt-4">Submit Solution:</h6>
                                     <Row>
                                         <Col>
-                                            <Button variant="success" className="ml-1" disabled={props.applicationData?.status == 4} onClick={() => props.handleSubmission()}>Submit Solution</Button>
+                                            <Button variant="success" className="ml-1" disabled={props.applicationData?.status == 4} onClick={() => props.handleSubmission(props.gig)}>Submit Solution</Button>
                                         </Col>
                                     </Row>
                                   </>

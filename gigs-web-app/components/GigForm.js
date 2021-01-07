@@ -111,8 +111,7 @@ export default function GigForm(props) {
     }
 
     const handleFileRemove = () => {
-        // TODO: Handle file upload, as in, 
-        // default button is clicked as well. 
+        // TODO: Fix - Hidden button is also clicked.
         toggleUploaded(false)
         setInputFields({...inputFields, encryptedFile: '', encryptedKey: ''})
     }

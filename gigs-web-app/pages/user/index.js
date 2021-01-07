@@ -13,6 +13,7 @@ import Col from 'react-bootstrap/Col'
 import DefaultLayout from '../../layout/DefaultLayout'
 import GigsSummaryCard from '../../components/GigsSummaryCard'
 import GigsSearchResultSection from '../../components/GigsSearchResultSection'
+import SubmissionTable from '../../components/SubmissionTable'
 
 import { domain } from '../../config/config'
 
@@ -28,6 +29,10 @@ export default function Gigs() {
     const [applied, setApplied] = useState([])
     const [totalApplied, updateAppliedCount] = useState(0)
     const [submitted, setSubmitted] = useState([])
+    const [totalSubmitted, updateSubmittedCount] = useState(0)
+    const [submissions, updateSubmissions] = useState([])
+    const [totalSuccessGigs, updateTotalSuccess] = useState(0)
+    // TODO: `updateSubmission` should also `updateSubmissions`
 
     useEffect(() => {
         if (!isUserSession) return router.push('/')
@@ -62,10 +67,20 @@ export default function Gigs() {
                         }
 
                         if (usergigmodel.status == 4) {
-                            // Submitted
+                            // Submitted 
+                            // TODO: Might not be relevant, look into this later
                             let tempSubmitted = submitted
                             tempSubmitted.push(usergigmodel.gig)
                             setSubmitted(tempSubmitted)
+                            updateSubmittedCount(submitted.length)
+                            let tempSubmission = submissions
+                            let submissionObject = {}
+                            let gigId = usergigmodel.gig
+                            submissionObject.gig = data.allGigs[data.allGigs.map((g) => {return g._id}).indexOf(gigId)]
+                            submissionObject.submission = usergigmodel.submission
+                            tempSubmission.push(submissionObject)
+                            updateSubmissions(tempSubmission)
+                            if (usergigmodel.submission.status === "1") updateTotalSuccess(totalSuccessGigs + 1)
                         }
                     })
                     setGigsData(data.allGigs)
@@ -113,8 +128,23 @@ export default function Gigs() {
         updateAppliedCount(applied.length)
     }
 
+    const updateSubmission = (id) => {
+        // If id in applied, remove that, change count
+        // decrease for applied, increase for submitted
+        if (applied.includes(id)) {
+            let tempApplied = applied
+            tempApplied.splice(tempApplied.indexOf(id), 1)
+            setApplied(tempApplied)
+            updateAppliedCount(applied.length)
+        }
+        let tempSubmitted = submitted
+        tempSubmitted.push(id)
+        setSubmitted(tempSubmitted)
+        updateSubmittedCount(submitted.length)
+    }
+
     const filterAvailableGig = (gig) => {
-        return !applied.includes(gig._id)
+        return (!applied.includes(gig._id) && !submitted.includes(gig._id))
     }
 
     const filterAppliedGig = (gig) => {
@@ -130,7 +160,7 @@ export default function Gigs() {
             </Head>
             <Row className="mt-4">
                     <GigsSummaryCard
-                        count="0"
+                        count={totalSuccessGigs}
                         title="# Succefull Gigs" 
                     />
                     <GigsSummaryCard
@@ -142,8 +172,8 @@ export default function Gigs() {
                         title="# Applied Gigs" 
                     />
                     <GigsSummaryCard
-                        count={submitted?.length}
-                        title="# Awaiting Submission Response" 
+                        count={totalSubmitted}
+                        title="# Total Submissions" 
                     />
             </Row>
             <Row>
@@ -153,10 +183,10 @@ export default function Gigs() {
                             <GigsSearchResultSection gigs={gigsData.filter(filterAvailableGig)} isUserSession={isUserSession} isAdmin={false} bookmarked={bookmarked} updateBookmarked={(action, id) => handleBookmarkUpdate(action, id)} updateApplied={(id) => updateApplied(id)}/>
                         </Tab>
                         <Tab eventKey="applied" title="Applied">
-                            <GigsSearchResultSection gigs={gigsData.filter(filterAppliedGig)} isUserSession={isUserSession} isAdmin={false} applied={true} applications={applications} />
+                            <GigsSearchResultSection gigs={gigsData.filter(filterAppliedGig)} isUserSession={isUserSession} isAdmin={false} applied={true} applications={applications} updateSubmission={(id) => updateSubmission(id)} />
                         </Tab>
                         <Tab eventKey="submissions" title="Submissions">
-                            <GigsSearchResultSection />
+                            <SubmissionTable submissions={submissions} />
                         </Tab>
                     </Tabs>
                 </Col>
