@@ -23,7 +23,7 @@ export default function GigForm(props) {
     const [inputFields, setInputFields] = useState({
         title: '',
         description: '',
-        category: '',
+        submissionCount: '',
         community: '',
         gigStartDate: Date.now(),
         gigEndDate: Date.now(),
@@ -161,13 +161,8 @@ export default function GigForm(props) {
                     </Form.Group>
                 </Form.Row>
                 <Form.Row className="justify-content-center">
-                    <Form.Group as={Col} controlId="category" xs={10} md={4} lg={4}>
-                        <Form.Control as="select" value={inputFields.category} placeholder="Select a category" name="category" onChange={(e) => handleChange(e)} required>
-                            <option disabled>Select a category</option>
-                            <option value="development">Development</option>
-                            <option value="marketing">Marketing</option>
-                            <option value="sales">Sales</option>
-                        </Form.Control>
+                    <Form.Group as={Col} controlId="submissionCount" xs={10} md={4} lg={4}>
+                        <Form.Control type="number" value={inputFields.submissionCount} placeholder="Enter maximum number of submissions" name="submissionCount" onChange={(e) => handleChange(e)} required />
                     </Form.Group>
                     <Form.Group as={Col} controlId="community" xs={10} md={4} lg={4}>
                         <Form.Control as="select" placeholder="Select the community" name="community" value={inputFields.community} className="text-capitalize" onChange={(e) => handleChange(e)}  required>
