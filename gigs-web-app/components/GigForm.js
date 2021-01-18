@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 
@@ -8,14 +10,21 @@ import DatePicker from 'react-datepicker'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import Toast from 'react-bootstrap/Toast'
+import InputGroup from 'react-bootstrap/InputGroup'
+import Alert from 'react-bootstrap/Alert'
+const Multiselect = dynamic(() => import('multiselect-react-dropdown').then(module => module.Multiselect),{
+    ssr: false
+})
 
 import Autosuggest from './Autosuggest'
 
-import { FaUpload, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
+import { FaUpload, FaCheckCircle, FaTimesCircle, FaPlusSquare } from 'react-icons/fa'
 import { AiFillCloseCircle } from 'react-icons/ai'
 
 import connectToExtension from '../utils/extension'
 import { domain } from '../config/config'
+
+const regex = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi)
 
 export default function GigForm(props) {
 
@@ -30,6 +39,8 @@ export default function GigForm(props) {
         type: '',
         reward: 0,
         skillDetails: [],
+        virtues: [],
+        externalLinks: [],
         encryptedFile: null,
         encryptedKey: null
     })
@@ -147,6 +158,50 @@ export default function GigForm(props) {
         }) 
     }
 
+    const virtues = ['honesty', 'hardwork', 'intergrity']
+
+    const handleSelect = (list) => {
+        setInputFields({...inputFields, virtues: list})
+    }
+
+    const [linkInput, updateLinkInput] = useState('')
+    const [linkError, setLinkError] = useState('')
+
+    const handleLink = () => {
+        if (linkInput == '') return
+        if (inputFields.externalLinks.length >= 5) {
+            setLinkError('Already 5 URLs added')
+            return
+        }
+        if (isValidURL(linkInput)) {
+            // Push to externalLinks
+            let tempExternalLinks = inputFields.externalLinks
+            tempExternalLinks.push(linkInput)
+            setInputFields({...inputFields, externalLinks: tempExternalLinks})
+            updateLinkInput('')
+        } else {
+            setLinkError('Invalid URL format')
+        }
+    }
+
+    const handleLinkRemove = (link) => {
+        let tempExternalLinks = inputFields.externalLinks
+        tempExternalLinks.splice(tempExternalLinks.indexOf(link), 1)
+        setInputFields({...inputFields, externalLinks: tempExternalLinks})
+    }
+
+    const handleLinkKeyDown = (e) => {
+        if (e.keyCode == 13) {
+            e.preventDefault()
+            handleLink()
+            return
+        }
+    }
+
+    const isValidURL = (input) => {
+        return input.match(regex)
+    }
+
     return (
         <>
             <Form onSubmit={(e) => handleSubmit(e)} className="mt-4">
@@ -225,23 +280,63 @@ export default function GigForm(props) {
                         </Form.Text>
                     </Form.Group>
                     <Form.Group as={Col} controlId="file" xs={10} md={4} lg={4}>
-                        <input style={{zIndex: -1}} type="file" id="actual-btn" onChange={(e) => setSelectedFile(e.target.files[0])} required hidden></input>
+                        <Multiselect
+                            options={virtues}
+                            onSelect={(list) => handleSelect(list)}
+                            onRemove={(list) => handleSelect(list)}
+                            showCheckbox={true}
+                            isObject={false}
+                            placeholder="Select virtues"
+                            avoidHighlightFirstOption={true}
+                        />
+                    </Form.Group>
+                </Form.Row>
+                <Form.Row className="justify-content-center">
+                    <Form.Group as={Col} controlId="links" xs={10} md={4} lg={4}>
+                        <InputGroup className="mb-1">
+                            <Form.Control type="url" placeholder="Add upto 5 external resouce links here" name="links" value={linkInput} onChange={(e) => updateLinkInput(e.target.value)} onBlur={() => handleLink()} onFocus={() => setLinkError('')} onKeyDown={(e) => handleLinkKeyDown(e)} />
+                            <InputGroup.Append><Button variant="outline-secondary" onClick={() => handleLink()} ><FaPlusSquare /></Button></InputGroup.Append>
+                        </InputGroup>
+                        <Form.Text id="linkErrorBlock" className="text-danger">
+                            {linkError}
+                        </Form.Text>
+                        <Form.Text id="externalLinksBlock" className="text-success font-italic">
+                            {
+                                inputFields.externalLinks.map((l, i) => {
+                                    return (
+                                        <>
+                                            <p className="p-0 m-0" key={i}>
+                                                <a href="/">{l}</a>
+                                                <AiFillCloseCircle className="float-right mt-1 text-danger" onClick={() => {handleLinkRemove(l)}} />
+                                            </p>
+                                        </>
+                                    )
+                                })
+                            }
+                        </Form.Text>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="file" xs={10} md={4} lg={4}>
+                        <input style={{zIndex: -1}} type="file" id="actual-btn" onChange={(e) => setSelectedFile(e.target.files[0])} hidden></input>
                         {
                             (isUploaded) ?
                             <label htmlFor="actual-btn" className="btn btn-success w-100"><FaCheckCircle className="mb-1" /> File Uploaded<FaTimesCircle style={{zIndex: 1}} className="float-right mt-1" onClick={() => handleFileRemove()} /></label>
                             :
-                            <label htmlFor="actual-btn" className="btn btn-primary w-100"><FaUpload className="mb-1" /> {isLoading ? ' Loading...' : ' Add Document'}</label>
+                            <label htmlFor="actual-btn" className="btn btn-info w-100"><FaUpload className="mb-1" /> {isLoading ? ' Loading...' : ' Add Document'}</label>
                         }
+                        <Form.Text id="passwordHelpBlock" muted>
+                            Uploading a private document is optional. But if added, the gig worker is required to apply to the gig
+                            before they can upload a solution.
+                        </Form.Text>
                     </Form.Group>
                 </Form.Row>
-                <Form.Group as={Row}>
-                    <Col className="text-right" xs={10} md={10} lg={10}>
+                <Form.Row className="justify-content-center">
+                    <Col className="form-group text-right" xs={10} md={8} lg={8}>
                         <Button type="submit" className="btn btn-primary m-1">Add Gig</Button>
                     </Col>
-                </Form.Group>
+                </Form.Row>
             </Form>
             
-            <Row className="justify-content-center">
+            <Row className="justify-content-center fixed-bottom mb-2">
                 <Col xs={10} lg={8} md={8}>
                     <Toast delay={3000} show={showToast} className={"bg-" + toastType} autohide>
                         <Toast.Header>

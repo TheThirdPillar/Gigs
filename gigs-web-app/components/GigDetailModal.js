@@ -45,9 +45,6 @@ export default function GigDetailModal(props) {
     }
 
     const viewDocument = (isAdmin) => {
-        console.log(props.applicationData)
-        console.log(props.gig)
-        console.log(isAdmin)
         let encryptedData, encryptedKey, originalPublicKey
         encryptedData = props.gig.encryptedFile
         if (isAdmin) {
@@ -126,6 +123,18 @@ export default function GigDetailModal(props) {
                         <Row>
                             <Col>
                                 {props.gig?.gigDescription}                            
+                            </Col>
+                        </Row>
+                        <h6>External Links: </h6>
+                        <Row>
+                            <Col>
+                                {
+                                    props.gig?.externalLinks.map((l, i) => {
+                                        return (
+                                            <p key={i} className="m-0 p-0"><a href={l} target="_blank">{l}</a></p>
+                                        )
+                                    })
+                                }
                             </Col>
                         </Row>
                         <h6 className="mt-2">Required Skills:</h6>
