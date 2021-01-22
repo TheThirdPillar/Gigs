@@ -6,9 +6,12 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 import { FaRupeeSign, FaRegHeart, FaHeart } from 'react-icons/fa'
 import { SiGooglescholar } from 'react-icons/si'
+import { AiFillInfoCircle } from 'react-icons/ai'
 
 import Logo from './Logo'
 
@@ -65,7 +68,7 @@ export default function GigsInfoCards(props) {
 
     return (
         <>
-            <Col xs={12} md={6} lg={5}>
+            <Col xs={12} md={6} lg={4}>
                 <Card 
                     bg="light"
                     text="black"
@@ -81,7 +84,12 @@ export default function GigsInfoCards(props) {
                                 }
                             </Col>
                             <Col className="text-right text-muted text-capitalize font-weight-bold">
-                                {props.gig?.gigCategory}
+                                {props.gig?.submissions.length}/{props.gig?.submissionCount} 
+                                <OverlayTrigger overlay={<Tooltip>Successful submissions so far / Total spots available</Tooltip>}>
+                                    <span>
+                                        &nbsp;<AiFillInfoCircle className="mb-1" />
+                                    </span>
+                                </OverlayTrigger>
                             </Col>
                         </Row>
                         <Card.Title>
@@ -97,7 +105,7 @@ export default function GigsInfoCards(props) {
                         <Card.Text>
                             {
                                 props.gig?.gigSkills.map((skill, index) => {
-                                    return <Badge pill variant="dark" key={index} className="text-capitalize m-1">{skill}</Badge>
+                                    return <Badge pill variant="dark" key={index} className="text-capitalize m-1 p-2">{skill}</Badge>
                                 })
                             }
                         </Card.Text>

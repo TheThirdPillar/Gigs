@@ -142,7 +142,17 @@ export default function GigDetailModal(props) {
                             <Col>
                                 {
                                     props.gig?.gigSkills.map((skill, index) => {
-                                        return <Badge pill variant="primary" className="m-2 text-capitalize" key={index}>{skill}</Badge>
+                                        return <Badge pill variant="primary" className="mr-1 p-2 text-capitalize" key={index}>{skill}</Badge>
+                                    })
+                                }
+                            </Col>
+                        </Row>
+                        <h6 className="mt-2">Endorsed virtues: </h6>
+                        <Row>
+                            <Col>
+                                {
+                                    props.gig?.virtues.map((virtue, index) => {
+                                        return <Badge pill variant="dark" className="mr-1 p-2 text-capitalize" key={index}>{virtue}</Badge>
                                     })
                                 }
                             </Col>
