@@ -44,7 +44,7 @@ export default function Home() {
       <Row className="mt-4">
         <Col xs={12} md={6} lg={6}>
           <h1 className={styles.marginTop}>Find your next <span className={styles.blueText}>GIG</span></h1>
-          <Form className="mt-1 ml-2">
+          {/* <Form className="mt-1 ml-2">
             <Form.Group as={Row} controlId="search">
               <InputGroup>
                 <Form.Control type="text" placeholder="Enter keyword" size="lg" />
@@ -56,7 +56,7 @@ export default function Home() {
                 Search by skill or category
               </Form.Text>
             </Form.Group>
-          </Form>
+          </Form> */}
           <h4>
             Jobs are cool, sure. But you could be <br />
             <span className={styles.blueText} id="changingText">

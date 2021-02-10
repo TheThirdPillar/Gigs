@@ -157,35 +157,42 @@ export default function GigDetailModal(props) {
                                 }
                             </Col>
                         </Row>
-                        <h6 className="mt-2">Attached Document:</h6>
-                        <Row>
-                            <Col>
-                                {
-                                    (props.isAdmin)
-                                        ? <Button className="ml-1" onClick={() => viewDocument(props.isAdmin)}>View Document</Button>
-                                        : (props.applied)
-                                            ? <Button className="ml-1" disabled={props.applicationData?.status !== 2} onClick={() => viewDocument(props.isAdmin)}>View Document</Button>
-                                            : <Button className="ml-1" onClick={() => applyGig()}>Apply to View</Button>  
-                                }
-                            </Col>
-                        </Row>
+                        {
+                            (props.gig?.encryptedFile)
+                                ? <>
+                                    <h6 className="mt-2">Attached Document:</h6>
+                                    <Row>
+                                        <Col>
+                                            {
+                                                (props.isAdmin)
+                                                    ? <Button className="ml-1" onClick={() => viewDocument(props.isAdmin)}>View Document</Button>
+                                                    : (props.applied)
+                                                        ? <Button className="ml-1" disabled={props.applicationData?.status !== 2} onClick={() => viewDocument(props.isAdmin)}>View Document</Button>
+                                                        : <Button className="ml-1" onClick={() => applyGig()}>Apply to View</Button>  
+                                            }
+                                        </Col>
+                                    </Row>
+                                  </>
+                                : <>
+                                    {
+                                        (props.isAdmin)
+                                            ? ''
+                                            : <>
+                                                <h6 className="mt-4">Submit Solution:</h6>
+                                                <Row>
+                                                    <Col>
+                                                        <Button variant="success" className="ml-1" disabled={props.applicationData?.status == 4} onClick={() => props.handleSubmission(props.gig)}>Submit Solution</Button>
+                                                    </Col>
+                                                </Row>
+                                              </>
+                                    }
+                                  </>
+                        }
                         <Row>
                             <Col>
                                 <p className="text-danger">{logText}</p>
                             </Col>
                         </Row>
-                        {
-                            (props.applicationData?.status == 2 || props.applicationData?.status == 4)
-                                ? <>
-                                    <h6 className="mt-4">Submit Solution:</h6>
-                                    <Row>
-                                        <Col>
-                                            <Button variant="success" className="ml-1" disabled={props.applicationData?.status == 4} onClick={() => props.handleSubmission(props.gig)}>Submit Solution</Button>
-                                        </Col>
-                                    </Row>
-                                  </>
-                                : ''
-                        }
                     </Col>
                     <Col lg={4}>
                         <Row>
