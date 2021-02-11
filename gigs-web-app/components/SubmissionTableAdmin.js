@@ -6,11 +6,14 @@ import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 
 import connectToExtension from '../utils/extension'
-import { domain } from '../config/config'
+
+import ReviewModal from './ReviewModal'
 
 export default function SubmissionTable(props) {
     
-    const [logText, setLogText] = useState()
+    const [showReviewModal, toggleReviewModal] = useState(false)
+    const [selectedSubmission, setSelectedSubmission] = useState({})
+    const [selectedGig, setSelectedGig] = useState({})
 
     const viewSubmission = (submission) => {
         let request = {}
@@ -34,44 +37,29 @@ export default function SubmissionTable(props) {
         })
     }
 
-    const handleSubmission = (submission, action) => {
-        // TODO: Use crypto signatures
-        let request = {}
-        request.status = action
-        request.submissionId = submission._id
-        fetch(domain + '/application/listen/gigs/handleSubmission', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + Cookies.get('token')
-            },
-            body: JSON.stringify(request)
-        })
-        .then(response => response.json())
-        .then(data => {
-            // TODO: Response handlers
-            if (data && data.status && data.status == 'SUCCESS') {
-                location.reload()
-            } else {
-                setLogText('Unable to handle submissions at the moment. Please try later.')
-            }
-        })
+    const handleReview = (submission, gig) => {
+        setSelectedSubmission(submission)
+        setSelectedGig(gig)
+        toggleReviewModal(true)
+    }
 
+    const handleReviewModalClose = () => {
+        toggleReviewModal(false)
+        setSelectedSubmission({})
+        setSelectedGig({})
     }
 
     return (
         <>  
-            <p className="text-danger">{logText}</p>
             <Table className="mt-4">
                 <thead>
                     <tr>
-                        <th>#</th>
                         <th>Gig Title</th>
                         <th>Status</th>
                         <th>Submission</th>
+                        <th>external URLs</th>
                         <th>Date of Submission</th>
-                        <th>Accept</th>
-                        <th>Reject</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,13 +69,20 @@ export default function SubmissionTable(props) {
                                 return (
                             
                                     <tr key={index} className="mt-2">
-                                        <td className="font-weight-bold mt-1">{index + 1}</td>
                                         <td className="font-weight-bold mt-1">{gig.gigTitle}</td>
                                         <td className="font-weight-bold mt-1"><Badge className="p-2" pill variant={(submission.status === "0") ? "warning" : (submission.status === "1") ? "success" : "danger" }>{(submission.status === "0") ? "PENDING" : (submission.status === "1") ? "ACCEPTED" : "REJECTED"}</Badge></td>
-                                        <td><Button variant="dark" size="sm" onClick={() => {viewSubmission(submission)}}>View Submission</Button></td>
+                                        <td><Button variant="dark" size="sm" onClick={() => {viewSubmission(submission)}} disabled={!submission.submissionFile}>View Submission</Button></td>
+                                        <td className="mt-1">
+                                            {
+                                                (submission.externalURLs)
+                                                    ? submission.externalURLs.map((url, index) => {
+                                                        return <a href={url} target="_blank">External Link {index + 1}</a>
+                                                    })
+                                                    : <span>--</span>
+                                            }
+                                        </td>
                                         <td className="font-weight-bold mt-1">{new Date(submission.dateSubmission).toLocaleDateString()}</td>
-                                        <td><Button variant="success" size="sm" onClick={() => {handleSubmission(submission, "1")}} disabled={(submission.status !== "0")}>Accept</Button></td>
-                                        <td><Button variant="danger" size="sm" onClick={() => {handleSubmission(submission, "0")}} disabled={(submission.status !== "0")}>Reject</Button></td>
+                                        <td><Button variant="primary" size="sm" onClick={() => handleReview(submission, gig)} disabled={(submission.status !== "0")}>Review</Button></td>
                                     </tr>
                             
                                 )
@@ -96,6 +91,7 @@ export default function SubmissionTable(props) {
                     }
                 </tbody>
             </Table>
+            <ReviewModal submission={selectedSubmission} gig={selectedGig} show={showReviewModal} onHide={() => handleReviewModalClose()} />
         </>
     )
 }

@@ -38,6 +38,7 @@ export default function SubmissionTable(props) {
                         <th>Gig Title</th>
                         <th>Status</th>
                         <th>Submission</th>
+                        <th>External URLs</th>
                         <th>Date of Submission</th>
                     </tr>
                 </thead>
@@ -49,7 +50,16 @@ export default function SubmissionTable(props) {
                                     <td className="font-weight-bold mt-1">{index + 1}</td>
                                     <td className="font-weight-bold mt-1">{submission.gig.gigTitle}</td>
                                     <td className="font-weight-bold mt-1"><Badge className="p-2" pill variant={(submission.submission.status === "0") ? "warning" : (submission.submission.status === "1") ? "success" : "danger" }>{(submission.submission.status === "0") ? "PENDING" : (submission.submission.status === "1") ? "ACCEPTED" : "REJECTED"}</Badge></td>
-                                    <td><Button variant="dark" size="sm" onClick={() => {viewSubmission(submission.submission)}}>View Submission</Button></td>
+                                    <td><Button variant="dark" size="sm" onClick={() => {viewSubmission(submission.submission)}} disabled={!submission.submission.submissionFile}>View Submission</Button></td>
+                                    <td className="mt-1">
+                                        {
+                                            (submission.submission.externalURLs)
+                                                ? submission.submission.externalURLs.map((url, index) => {
+                                                    return <a href={url} target="_blank">External Link {index + 1}</a>
+                                                })
+                                                : <span>--</span>
+                                        }
+                                    </td>
                                     <td className="font-weight-bold mt-1">{new Date(submission.submission.dateSubmission).toLocaleDateString()}</td>
                                 </tr>
                             )

@@ -6,17 +6,22 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import InputGroup from 'react-bootstrap/InputGroup'
 
-import { FaUpload, FaCheckCircle } from 'react-icons/fa'
+import { FaUpload, FaCheckCircle, FaPlusSquare } from 'react-icons/fa'
+import { AiFillCloseCircle } from 'react-icons/ai'
 
 import connectToExtension from '../utils/extension'
 import { domain } from '../config/config'
+
+const regex = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi)
 
 export default function SubmissionModal(props) {
     
     const [userSkillSet, setUserSkillSet] = useState()
     const [inputFields, updateInputFields] = useState({
         userskilldata: null,
+        externalLinks: [],
         encryptedSolution: null,
         encryptedSolutionKeyUser: null,
         encryptedSolutionKeyAdmin: null
@@ -79,17 +84,54 @@ export default function SubmissionModal(props) {
         currentField[e.target.name] = e.target.value
     }
 
+    const [linkInput, updateLinkInput] = useState('')
+    const [linkError, setLinkError] = useState('')
+
+    const handleLink = () => {
+        if (linkInput == '') return
+        if (inputFields.externalLinks.length >= 5) {
+            setLinkError('Already 5 URLs added')
+            return
+        }
+        if (isValidURL(linkInput)) {
+            // Push to externalLinks
+            let tempExternalLinks = inputFields.externalLinks
+            tempExternalLinks.push(linkInput)
+            updateInputFields({...inputFields, externalLinks: tempExternalLinks})
+            updateLinkInput('')
+        } else {
+            setLinkError('Invalid URL format')
+        }
+    }
+
+    const handleLinkRemove = (link) => {
+        let tempExternalLinks = inputFields.externalLinks
+        tempExternalLinks.splice(tempExternalLinks.indexOf(link), 1)
+        updateInputFields({...inputFields, externalLinks: tempExternalLinks})
+    }
+
+    const handleLinkKeyDown = (e) => {
+        if (e.keyCode == 13) {
+            e.preventDefault()
+            handleLink()
+            return
+        }
+    }
+
+    const isValidURL = (input) => {
+        return input.match(regex)
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
 
         // TODO: Form validation and file remove etc.
         // TODO: Date validation etc.
-        console.log(inputFields)
-        console.log(props.gig._id)
         let request = {}
         request.encryptedSolution = inputFields.encryptedSolution
         request.encryptedSolutionKeyUser = inputFields.encryptedSolutionKeyUser
         request.encryptedSolutionKeyAdmin = inputFields.encryptedSolutionKeyAdmin
+        request.externalLinks = inputFields.externalLinks
         request.userskilldata = inputFields.userskilldata
         request.gigId = props.gig._id
         fetch(domain + '/application/listen/gigs/gigSubmission', {
@@ -134,13 +176,40 @@ export default function SubmissionModal(props) {
                         <Form.Row className="justify-content-center">
                             <Form.Group as={Col} controlId="skillset">
                                 <Form.Control as="select" placeholder="Select a skill set to endorse" name="userskilldata" className="form-control text-uppercase" onChange={(e) => handleChange(e)} required>
-                                    <option value="Select a skill" selected disabled>Select a skill set from Identity</option>
+                                    <option value="Select a skill" disabled>Select a skill set from Identity</option>
                                     {
                                         userSkillSet?.map((skill, index) => {
                                             return <option value={skill._id} key={index} className="text-capitalize">{skill.data.associatedSkill}</option>
                                         })
                                     }
                                 </Form.Control>
+                            </Form.Group>
+                        </Form.Row>
+                        <Form.Row>
+                            <Form.Group as={Col} controlId="links">
+                                <InputGroup className="mb-1">
+                                    <Form.Control type="url" placeholder="Add upto 5 external resource links here" name="links" value={linkInput} onChange={(e) => updateLinkInput(e.target.value)} onBlur={() => handleLink()} onFocus={() => setLinkError('')} onKeyDown={(e) => handleLinkKeyDown(e)} />
+                                    <InputGroup.Append>
+                                    <Button variant="outline-secondary" onClick={() => handleLink()} ><FaPlusSquare /></Button>
+                                    </InputGroup.Append>
+                                </InputGroup>
+                                <Form.Text id="linkErrorBlock" className="text-danger">
+                                    {linkError}
+                                </Form.Text>
+                                <Form.Text id="externalLinksBlock" className="text-success font-italic">
+                                    {
+                                        inputFields.externalLinks.map((l, i) => {
+                                            return (
+                                                <>
+                                                    <p className="p-0 m-0" key={i}>
+                                                        <a href="/">{l}</a>
+                                                        <AiFillCloseCircle className="float-right mt-1 text-danger" onClick={() => {handleLinkRemove(l)}} />
+                                                    </p>
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </Form.Text>
                             </Form.Group>
                         </Form.Row>
                         <Form.Row className="justify-content-center">
@@ -153,8 +222,10 @@ export default function SubmissionModal(props) {
                                     <label htmlFor="actual-btn" className="btn btn-primary w-100"><FaUpload className="mb-1" />{isLoading ? ' Loading...' : ' Upload Solution'}</label>
                                 }
                             </Form.Group>
+                        </Form.Row>
+                        <Form.Row>
                             <Form.Group as={Col}>
-                                <Button type="submit" variant="dark" className="float-right" disabled={(!inputFields.userskilldata || !inputFields.encryptedSolution)}>Submit</Button>
+                                <Button type="submit" variant="dark" className="float-right" disabled={(!inputFields.userskilldata && (!inputFields.encryptedSolution || !inputFields.externalLinks))}>Submit</Button>
                             </Form.Group>
                         </Form.Row>
                     </Form>

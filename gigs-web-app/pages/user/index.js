@@ -180,7 +180,7 @@ export default function Gigs() {
                 <Col>
                     <Tabs fill variant="tabs" defaultActiveKey="gigs" className="mt-4">
                         <Tab eventKey="gigs" title="Gigs">
-                            <GigsSearchResultSection gigs={gigsData.filter(filterAvailableGig)} isUserSession={isUserSession} isAdmin={false} bookmarked={bookmarked} updateBookmarked={(action, id) => handleBookmarkUpdate(action, id)} updateApplied={(id) => updateApplied(id)}/>
+                            <GigsSearchResultSection gigs={gigsData.filter(filterAvailableGig)} isUserSession={isUserSession} isAdmin={false} bookmarked={bookmarked} updateBookmarked={(action, id) => handleBookmarkUpdate(action, id)} updateApplied={(id) => updateApplied(id)} updateSubmission={(id) => updateSubmission(id)} />
                         </Tab>
                         <Tab eventKey="applied" title="Applied">
                             <GigsSearchResultSection gigs={gigsData.filter(filterAppliedGig)} isUserSession={isUserSession} isAdmin={false} applied={true} applications={applications} updateSubmission={(id) => updateSubmission(id)} />
