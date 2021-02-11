@@ -1,4 +1,4 @@
-const extensionId = 'ccjpfpcdjnlmkdnpbkahbeifmlbdgmeb'
+const extensionId = 'jfjlbdapmilmhjhcjmkjngemobhkjpgh'
 
 const connectToExtension = (request) => {
         return new Promise((resolve, reject) => {

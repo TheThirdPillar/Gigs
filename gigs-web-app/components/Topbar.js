@@ -28,6 +28,10 @@ function Topbar(props) {
     }  
   }, []) 
 
+  const handleShieldInstallation = () => {
+    window.open('https://chrome.google.com/webstore/detail/skillschain-shield/jfjlbdapmilmhjhcjmkjngemobhkjpgh', '_blank', 'location=yes,height=200,width=720,scrollbars=yes,status=yes, left: 100, top: 200');
+  }
+
   return (
     <>
       <Row className="justify-content-center">
@@ -58,7 +62,7 @@ function Topbar(props) {
             <Navbar.Collapse className="justify-content-end">
               <Navbar.Text>
                 {!isShieldInstalled &&
-                  <Button variant="primary" size="md" block="true">
+                  <Button variant="primary" size="md" block="true" onClick={() => handleShieldInstallation()} >
                     Download Shield | <FaArrowCircleDown />
                   </Button>
                 }
