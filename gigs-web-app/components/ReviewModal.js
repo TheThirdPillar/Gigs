@@ -97,7 +97,7 @@ export default function ReviewModal(props) {
                                 <>
                                     <Row key={index} className="justify-content-center">
                                         <Col>
-                                            <Badge variant="primary" className="p-2 mr-2 text-uppercase">
+                                            <Badge variant="primary" className="p-2 mr-2 mt-1 text-uppercase">
                                                 {virtue}
                                             </Badge>
                                         </Col>
