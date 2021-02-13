@@ -1,5 +1,5 @@
 const configuration = {
-    domain: 'http://localhost:3000'
+    domain: 'https://api.skillschain.org'
 }
 
 module.exports = configuration
