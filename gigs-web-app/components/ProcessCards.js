@@ -12,7 +12,7 @@ function ProcessCards(props) {
           className="m-2 p-4 text-center">
               <Card.Body>
                 <Card.Title>
-                    {props.title}
+                    {props.title} {props.icon}
                 </Card.Title>
                 <Card.Text>
                     {props.text}
