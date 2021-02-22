@@ -9,11 +9,11 @@ import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import CardGroup from 'react-bootstrap/CardGroup'
 
-import Testimonial from 'react-testimonial'
-import { FaSearch, FaFileUpload, FaDesktop, FaMobile } from 'react-icons/fa'
-import { MdFavorite } from 'react-icons/md'
+import { FaSearch, FaMobile, FaCertificate } from 'react-icons/fa'
 import { RiHandCoinFill } from 'react-icons/ri'
 import { SiReadthedocs, SiSkillshare } from 'react-icons/si'
+import { CgCommunity } from 'react-icons/cg'
+import { BsFilePost } from 'react-icons/bs'
 import { GiPayMoney } from 'react-icons/gi'
 import Typewriter from 'typewriter-effect'
 
@@ -82,20 +82,24 @@ export default function Home() {
         <Col xs={12} md={12} lg={12}>
           <CardGroup>
             <ProcessCards
-              title={<FaSearch />}
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius diam sit amet diam hendrerit, vitae dapibus ligula consequat. Nam pretium tempus mauris a ultricies. Maecenas sagittis porta leo, id maximus nulla egestas volutpat. Sed tristique non augue varius sodales."
+              title={"Post a gig"}
+              icon={<BsFilePost />}
+              text="Community admins can post gigs, each with specific skill set, virtues and private (encrypted) documents. Each gig is accessible to our global audience."
             />
             <ProcessCards
-              title={<MdFavorite />}
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius diam sit amet diam hendrerit, vitae dapibus ligula consequat. Nam pretium tempus mauris a ultricies. Maecenas sagittis porta leo, id maximus nulla egestas volutpat. Sed tristique non augue varius sodales."
+              title={"Browse"}
+              icon={<FaSearch />}
+              text="As a member of the SkillsChain network, all our members have access to all the gigs from verified communities and organizations. Browse gigs to learn or earn. Admins can browse and accept submissions with ease."
             />
             <ProcessCards
-              title={<FaFileUpload />}
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius diam sit amet diam hendrerit, vitae dapibus ligula consequat. Nam pretium tempus mauris a ultricies. Maecenas sagittis porta leo, id maximus nulla egestas volutpat. Sed tristique non augue varius sodales."
+              title={"Payment"}
+              icon={<RiHandCoinFill />}
+              text="Get paid on time, every time. Payment is transferred to you upon order completion. Although, both parties will have community verified Identity on our system, we ensure that you are rewarded for your capital or your labor."
             />
             <ProcessCards
-              title={<RiHandCoinFill />}
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius diam sit amet diam hendrerit, vitae dapibus ligula consequat. Nam pretium tempus mauris a ultricies. Maecenas sagittis porta leo, id maximus nulla egestas volutpat. Sed tristique non augue varius sodales."
+              title={"Endorsements"}
+              icon={<FaCertificate />}
+              text="Gigs is tied to Identity, which means each successful Gig ( paid or otherwise ), earns you a verifiable endorsement for eternity on your skill-set and on your virtues."
             />
           </CardGroup>
         </Col>
@@ -106,59 +110,49 @@ export default function Home() {
       <Row className="mt-4">
         <Col xs={12} md={12} lg={12}>
           <VerticalTimeline>
-            <VerticalTimelineElement
-              className="vertical-timeline-element--work"
-              contentArrowStyle={{ borderRight: '7px solid  #ddd' }}
-              date="January 2020"
-              iconStyle={{ background: '#fff', color: '#0003ff' }}
-              icon={<GiPayMoney />}
-            >
-              <h3 className="vertical-timeline-element-title">Bidding</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis placerat turpis, vitae vestibulum ipsum elementum non. Curabitur id ex.</p>
-            </VerticalTimelineElement>
             <VerticalTimelineElement 
               className="vertical-timeline-element--work"
               contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
               contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
-              date="February 2020 - March 2020"
-              iconStyle={{ background: '#fff', color: '#0003ff' }}
-              icon={<SiSkillshare />}
-            >
-              <h3 className="vertical-timeline-element-title">SkillTokens</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis placerat turpis, vitae vestibulum ipsum elementum non. Curabitur id ex.</p>
-            </VerticalTimelineElement>
-            <VerticalTimelineElement 
-              className="vertical-timeline-element--work"
-              contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-              contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
-              date="April 2020"
-              iconStyle={{ background: '#fff', color: '#0003ff' }}
-              icon={<SiReadthedocs />}
-            >
-              <h3 className="vertical-timeline-element-title">Open API</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis placerat turpis, vitae vestibulum ipsum elementum non. Curabitur id ex.</p>
-            </VerticalTimelineElement>
-            <VerticalTimelineElement 
-              className="vertical-timeline-element--work"
-              contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-              contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
-              date="May 2020 - June 2020"
-              iconStyle={{ background: '#fff', color: '#0003ff' }}
-              icon={<FaDesktop />}
-            >
-              <h3 className="vertical-timeline-element-title">Desktop App</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis placerat turpis, vitae vestibulum ipsum elementum non. Curabitur id ex.</p>
-            </VerticalTimelineElement>
-            <VerticalTimelineElement 
-              className="vertical-timeline-element--work"
-              contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-              contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
-              date="June 2020 - July 2020"
+              date="June 2021 - July 2021"
               iconStyle={{ background: '#fff', color: '#0003ff' }}
               icon={<FaMobile />}
             >
               <h3 className="vertical-timeline-element-title">Mobile App</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis placerat turpis, vitae vestibulum ipsum elementum non. Curabitur id ex.</p>
+              <p>We understand that Gigs, more than anything else, goes hand-in-hand with mobile. We have started looking into it, and if you are someone who has an idea on how we can build this, do reach out to us.</p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement 
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+              contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
+              date="August 2021 - September 2021"
+              iconStyle={{ background: '#fff', color: '#0003ff' }}
+              icon={<SiReadthedocs />}
+            >
+              <h3 className="vertical-timeline-element-title">Open API</h3>
+              <p>We also understand that in a community economy we need gigs and more gigs. And needless to say, one platform may not be enough. We want to be able to capture skill movement across the internet, thus an Open API is a must.</p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement 
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+              contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
+              date="October 2021 - January 2022"
+              iconStyle={{ background: '#fff', color: '#0003ff' }}
+              icon={<CgCommunity />}
+            >
+              <h3 className="vertical-timeline-element-title">Community Integration</h3>
+              <p>Community by The Third Pillar is an idea under construction. We are building a decentralised community platform to power the frictionless skill movement. Community partners will be able to post tasks as gig accessible only to members, to learn or earn.</p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement 
+              className="vertical-timeline-element--work"
+              contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+              contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
+              date="February 2022 - March 2022"
+              iconStyle={{ background: '#fff', color: '#0003ff' }}
+              icon={<SiSkillshare />}
+            >
+              <h3 className="vertical-timeline-element-title">2-way bidding</h3>
+              <p>2020 Nobel Laureates, Paul Milgrom and Robert Wilson, used two-sided auction to create a better system for spectrum allocation that worked for both parties involved (state & the market). We are building on the same framework to design a better gig allocation and time allocation of gig workers.</p>
             </VerticalTimelineElement>
           </VerticalTimeline>
         </Col>
